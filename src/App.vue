@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="image" />
+    <div class="image" :style="imageStyles" />
     <div class="sidebar">
       <SidebarItem
         v-for="(option, index) in options"
@@ -29,6 +29,7 @@ export default {
     return {
       options: DEFAULT_OPTIONS,
       selectedOptionIndex: 0,
+      imageStyles: {},
     };
   },
   methods: {
@@ -37,6 +38,13 @@ export default {
     },
     handleSliderChange(value) {
       this.selectedOption.value = value;
+      this.getImageStyles();
+    },
+    getImageStyles() {
+      const filters = this.options.map((option) => {
+        return `${option.property}(${option.value}${option.unit})`;
+      });
+      this.imageStyles = { filter: filters.join(" ") };
     },
   },
   computed: {
@@ -44,21 +52,12 @@ export default {
       return this.options[this.selectedOptionIndex];
     },
     getMin() {
-      console.log(
-        `${this.selectedOption.name}'s min value is ${this.selectedOption.range.min}`
-      );
       return this.selectedOption.range.min;
     },
     getMax() {
-      console.log(
-        `${this.selectedOption.name}'s max value is ${this.selectedOption.range.max}`
-      );
       return this.selectedOption.range.max;
     },
     getValue() {
-      console.log(
-        `${this.selectedOption.name}'s value is ${this.selectedOption.value}`
-      );
       return this.selectedOption.value;
     },
   },
