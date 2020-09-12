@@ -11,7 +11,7 @@
         @handleClick="selectOption"
       />
     </div>
-    <Slider />
+    <Slider :min="getMin" :max="getMax" />
   </div>
 </template>
 
@@ -34,6 +34,17 @@ export default {
   methods: {
     selectOption(index) {
       this.selectedOption = index;
+    },
+  },
+  computed: {
+    getMin() {
+      return DEFAULT_OPTIONS[this.selectedOption].range.min;
+    },
+    getMax() {
+      return DEFAULT_OPTIONS[this.selectedOption].range.max;
+    },
+    getValue() {
+      return DEFAULT_OPTIONS[this.selectedOption].value;
     },
   },
 };
