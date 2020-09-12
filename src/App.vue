@@ -7,11 +7,11 @@
         :key="option.property"
         :option="option"
         :index="index"
-        :active="selectedOption === index"
+        :active="selectedOptionIndex === index"
         @handleClick="selectOption"
       />
     </div>
-    <Slider :min="getMin" :max="getMax" />
+    <Slider :min="getMin" :max="getMax" :value="getValue" @sliderChange="handleSliderChange" />
   </div>
 </template>
 
@@ -28,23 +28,38 @@ export default {
   data() {
     return {
       options: DEFAULT_OPTIONS,
-      selectedOption: 0,
+      selectedOptionIndex: 0,
     };
   },
   methods: {
     selectOption(index) {
-      this.selectedOption = index;
+      this.selectedOptionIndex = index;
+    },
+    handleSliderChange(value) {
+      this.selectedOption.value = value;
     },
   },
   computed: {
+    selectedOption() {
+      return this.options[this.selectedOptionIndex];
+    },
     getMin() {
-      return DEFAULT_OPTIONS[this.selectedOption].range.min;
+      console.log(
+        `${this.selectedOption.name}'s min value is ${this.selectedOption.range.min}`
+      );
+      return this.selectedOption.range.min;
     },
     getMax() {
-      return DEFAULT_OPTIONS[this.selectedOption].range.max;
+      console.log(
+        `${this.selectedOption.name}'s max value is ${this.selectedOption.range.max}`
+      );
+      return this.selectedOption.range.max;
     },
     getValue() {
-      return DEFAULT_OPTIONS[this.selectedOption].value;
+      console.log(
+        `${this.selectedOption.name}'s value is ${this.selectedOption.value}`
+      );
+      return this.selectedOption.value;
     },
   },
 };
