@@ -1,17 +1,40 @@
 <template>
   <div class="container">
     <div class="image" />
-    <div class="sidebar">Sidebar</div>
+    <div class="sidebar">
+      <SidebarItem
+        v-for="(option, index) in options"
+        :key="option.property"
+        :option="option"
+        :index="index"
+        :active="selectedOption === index"
+        @handleClick="selectOption"
+      />
+    </div>
     <Slider />
   </div>
 </template>
 
 <script>
 import Slider from "./components/Slider";
+import SidebarItem from "./components/SidebarItem";
+import DEFAULT_OPTIONS from "./default";
 
 export default {
   components: {
     Slider,
+    SidebarItem,
+  },
+  data() {
+    return {
+      options: DEFAULT_OPTIONS,
+      selectedOption: 0,
+    };
+  },
+  methods: {
+    selectOption(index) {
+      this.selectedOption = index;
+    },
   },
 };
 </script>
@@ -48,7 +71,44 @@ export default {
 
 .sidebar {
   grid-area: sidebar;
-  background: limegreen;
+  background: #1d2d50;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.sidebar-item {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: #1d2d50;
+  color: white;
+  padding: 1rem;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.sidebar-item:hover,
+.sidebar-item:focus {
+  background: #43658b;
+}
+
+.sidebar-item.active {
+  background-color: #515070;
+}
+
+.sidebar-item::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  background: white;
+}
+
+.sidebar-item:last-child::after {
+  display: none;
 }
 
 .slider-container {
