@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "Sidebar Item",
+  name: "SidebarItem",
   props: ["option", "active", "index"],
   methods: {
     handleClick(event, index) {
