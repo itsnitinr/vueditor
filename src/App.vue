@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <div class="image" :style="imageStyles" />
+    <div class="image">
+      <img v-if="imageUrl" :src="imageUrl" :style="imageStyles" />
+      <input v-else type="file" @change="fileSelect" />
+    </div>
     <div class="sidebar">
       <SidebarItem
         v-for="(option, index) in options"
@@ -30,6 +33,7 @@ export default {
       options: DEFAULT_OPTIONS,
       selectedOptionIndex: 0,
       imageStyles: {},
+      imageUrl: null,
     };
   },
   methods: {
@@ -45,6 +49,9 @@ export default {
         return `${option.property}(${option.value}${option.unit})`;
       });
       this.imageStyles = { filter: filters.join(" ") };
+    },
+    fileSelect(e) {
+      this.imageUrl = URL.createObjectURL(e.target.files[0]);
     },
   },
   computed: {
@@ -87,11 +94,11 @@ export default {
 
 .image {
   grid-area: image;
-  background: url(https://images.unsplash.com/photo-1599863853745-237150e3c879?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80);
-  height: 100%;
-  width: 100%;
+  height: 80%;
+  width: 80%;
   background-repeat: no-repeat;
   background-position: center;
+  background-size: contain;
 }
 
 .sidebar {
